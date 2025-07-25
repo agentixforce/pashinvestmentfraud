@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
     inputs.forEach(input => {
         input.addEventListener('input', function() {
             const value = this.value.toLowerCase();
-            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu', 'rastogi'];
+            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu', 'rustogi'];
             
             if (pashKeywords.some(keyword => value.includes(keyword))) {
                 // Show immediate warning
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     font-weight: bold;
                     text-align: center;
                 `;
-                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment or Rastogi! If you\'re dealing with them, STOP immediately and seek legal help!';
+                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment or Rustogi! If you\'re dealing with them, STOP immediately and seek legal help!';
                 
                 this.parentNode.insertBefore(warningDiv, this.nextSibling);
                 
