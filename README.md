@@ -47,7 +47,7 @@ This website is created to warn potential investors about fraudulent practices b
 ## Evidence Included
 
 ### 1. Fraudulent Cheque (`fake_cheque.jpg`)
-Shows the deliberately wrong date (January 2023 instead of 2024) used to avoid honoring the promised discount.
+Shows the cheque issue date 10/03/2023 used to avoid honoring the promised discount.
 
 ### 2. Cheque Envelope (`cheque_Envolpe.jpg`)
 Official envelope showing PASH Investment's involvement in the fraud.
