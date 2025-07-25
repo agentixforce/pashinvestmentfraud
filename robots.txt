@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: http://yourwebsiteurl.com/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Disallow any admin or private areas (none in this case)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow access to important fraud awareness content
+Allow: /index.html
+Allow: /fake_cheque.jpg
+Allow: /police_complaint.jpg
+Allow: /cheque_Envolpe.jpg
