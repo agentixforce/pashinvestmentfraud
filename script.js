@@ -1,25 +1,191 @@
-// Modal functionality for viewing evidence images
+// Modal functionality for viewing evidence images with zoom and pan
 let modal = document.getElementById("imageModal");
 let modalImg = document.getElementById("modalImage");
 let captionText = document.getElementById("caption");
 let span = document.getElementsByClassName("close")[0];
+
+// Zoom and pan variables
+let scale = 1;
+let panning = false;
+let pointX = 0;
+let pointY = 0;
+let start = { x: 0, y: 0 };
 
 // Function to open modal
 function openModal(img) {
     modal.style.display = "block";
     modalImg.src = img.src;
     captionText.innerHTML = img.alt;
+    resetZoom(); // Reset zoom when opening modal
+    
+    // Show modal hint for 4 seconds, but only for the cheque image
+    const modalHint = document.getElementById('modalHint');
+    if (img.src.includes('fake_cheque.jpg')) {
+        modalHint.style.display = 'block';
+        modalHint.classList.remove('hidden');
+        
+        // Hide hint after 4 seconds
+        setTimeout(() => {
+            modalHint.classList.add('hidden');
+        }, 4000);
+    } else {
+        modalHint.style.display = 'none';
+    }
+}
+
+// Function to reset zoom and pan
+function resetZoom() {
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+}
+
+// Function to set zoom level
+function setZoom(newScale) {
+    scale = Math.max(0.1, Math.min(5, newScale)); // Limit zoom between 0.1x and 5x
+    modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+}
+
+// Zoom in function
+function zoomIn() {
+    hideModalHint(); // Hide hint on zoom
+    setZoom(scale * 1.2);
+}
+
+// Zoom out function
+function zoomOut() {
+    hideModalHint(); // Hide hint on zoom
+    setZoom(scale / 1.2);
+}
+
+// Reset to 100% zoom
+function resetTo100() {
+    hideModalHint(); // Hide hint on zoom
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+}
+
+// Function to hide modal hint on interaction
+function hideModalHint() {
+    const modalHint = document.getElementById('modalHint');
+    if (modalHint && !modalHint.classList.contains('hidden')) {
+        modalHint.classList.add('hidden');
+    }
+}
+
+// Mouse wheel zoom
+modalImg.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    hideModalHint(); // Hide hint on zoom
+    
+    const rect = modalImg.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    const newScale = scale * delta;
+    
+    if (newScale >= 0.1 && newScale <= 5) {
+        const scaleChange = newScale / scale;
+        
+        pointX = offsetX - (offsetX - pointX) * scaleChange;
+        pointY = offsetY - (offsetY - pointY) * scaleChange;
+        
+        scale = newScale;
+        modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+});
+
+// Mouse pan functionality
+modalImg.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    start = { x: e.clientX - pointX, y: e.clientY - pointY };
+    panning = true;
+    modalImg.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', function(e) {
+    e.preventDefault();
+    if (!panning) {
+        return;
+    }
+    pointX = (e.clientX - start.x);
+    pointY = (e.clientY - start.y);
+    modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+});
+
+document.addEventListener('mouseup', function(e) {
+    panning = false;
+    modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
+});
+
+// Touch support for mobile devices
+let lastTouchDistance = 0;
+let initialScale = 1;
+
+modalImg.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+        lastTouchDistance = getTouchDistance(e.touches[0], e.touches[1]);
+        initialScale = scale;
+    } else if (e.touches.length === 1) {
+        start = { x: e.touches[0].clientX - pointX, y: e.touches[0].clientY - pointY };
+        panning = true;
+    }
+});
+
+modalImg.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    hideModalHint(); // Hide hint on touch interaction
+    
+    if (e.touches.length === 2) {
+        // Pinch to zoom
+        const currentDistance = getTouchDistance(e.touches[0], e.touches[1]);
+        const scaleChange = currentDistance / lastTouchDistance;
+        const newScale = initialScale * scaleChange;
+        
+        if (newScale >= 0.1 && newScale <= 5) {
+            scale = newScale;
+            modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+        }
+    } else if (e.touches.length === 1 && panning) {
+        // Pan
+        pointX = e.touches[0].clientX - start.x;
+        pointY = e.touches[0].clientY - start.y;
+        modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+});
+
+modalImg.addEventListener('touchend', function(e) {
+    panning = false;
+    modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
+});
+
+// Helper function to get distance between two touch points
+function getTouchDistance(touch1, touch2) {
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// Update cursor based on zoom level
+function updateCursor() {
+    modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
 }
 
 // Close modal when clicking the X
 span.onclick = function() {
     modal.style.display = "none";
+    resetZoom(); // Reset zoom when closing
 }
 
 // Close modal when clicking outside the image
 modal.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
+        resetZoom(); // Reset zoom when closing
     }
 }
 
@@ -27,6 +193,7 @@ modal.onclick = function(event) {
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         modal.style.display = "none";
+        resetZoom(); // Reset zoom when closing
     }
 });
 
@@ -299,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
     inputs.forEach(input => {
         input.addEventListener('input', function() {
             const value = this.value.toLowerCase();
-            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu', 'rustogi'];
+            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu', 'rustagi'];
             
             if (pashKeywords.some(keyword => value.includes(keyword))) {
                 // Show immediate warning
@@ -313,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     font-weight: bold;
                     text-align: center;
                 `;
-                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment or Rustogi! If you\'re dealing with them, STOP immediately and seek legal help!';
+                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment or Rustagi! If you\'re dealing with them, STOP immediately and seek legal help!';
                 
                 this.parentNode.insertBefore(warningDiv, this.nextSibling);
                 

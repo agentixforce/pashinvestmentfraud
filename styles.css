@@ -281,6 +281,11 @@ nav a:hover {
     margin-bottom: 0.3rem;
 }
 
+.date-emphasis {
+    color: #dc2626;
+    font-weight: 700;
+}
+
 /* Home Buyers Alert Section */
 .home-buyers-section {
     padding: 4rem 0;
@@ -861,6 +866,66 @@ footer p {
     text-decoration: none;
 }
 
+/* Zoom controls */
+.zoom-controls {
+    position: absolute;
+    top: 15px;
+    right: 100px;
+    z-index: 1001;
+    display: flex;
+    gap: 8px;
+}
+
+.zoom-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.zoom-btn:active {
+    transform: scale(0.95);
+}
+
+/* Modal image cursor styles */
+.modal-img-container {
+    cursor: grab;
+}
+
+.modal-content {
+    transition: transform 0.1s ease;
+    cursor: default;
+}
+
+/* Update modal-content styles for zoom functionality */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80%;
+    object-fit: contain;
+    animation: zoom 0.3s;
+    transform-origin: center center;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
 #caption {
     margin: auto;
     display: block;
@@ -950,6 +1015,26 @@ footer p {
     #caption {
         width: 95%;
     }
+    
+    /* Responsive zoom controls */
+    .zoom-controls {
+        right: 10px;
+        top: 60px;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .zoom-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 35px;
+    }
+}
+
+@media (max-width: 600px) {
+    .highlight-box {
+        transform: scale(0.6);
+    }
 }
 
 @media (max-width: 480px) {
@@ -983,6 +1068,76 @@ footer p {
     .story-form {
         padding: 1.5rem;
     }
+    
+    /* Responsive highlight overlay */
+    .highlight-arrow {
+        font-size: 1.5rem;
+    }
+}
+
+/* Highlight overlay styles */
+.highlight-box {
+    position: absolute;
+    border: 3px solid #dc2626;
+    background-color: rgba(239, 68, 68, 0.2);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.cheque-container {
+    position: relative;
+    display: inline-block;
+}
+
+.highlight-arrow {
+    position: absolute;
+    color: #dc2626;
+    font-size: 2rem;
+    font-weight: bold;
+    z-index: 11;
+    pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Cheque tip styles */
+.cheque-tip {
+    font-size: 0.9rem;
+    color: #dc2626;
+    font-weight: 600;
+    text-align: center;
+    margin: 0.75rem 0;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    font-style: italic;
+}
+
+/* Modal hint styles */
+.modal-hint {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    z-index: 1002;
+    max-width: 80%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.modal-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Print styles */
