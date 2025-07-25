@@ -155,20 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Warning system for PASH Investment detection
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if user has been warned about PASH Investment
-    const hasBeenWarned = localStorage.getItem('pashInvestmentWarning');
-    
-    if (!hasBeenWarned) {
-        // Show additional warning after 3 seconds
-        setTimeout(() => {
-            if (confirm('🚨 IMPORTANT: If you are currently dealing with PASH Investment, Mr. Sanket, or Mr. Himanshu, STOP all transactions immediately and seek legal advice. Click OK to acknowledge this warning.')) {
-                localStorage.setItem('pashInvestmentWarning', 'true');
-            }
-        }, 3000);
-    }
-});
+// Warning system for PASH Investment detection (popup removed)
+// The warning is now displayed prominently on the page without interrupting user experience
 
 // Print functionality
 function printPage() {
@@ -311,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
     inputs.forEach(input => {
         input.addEventListener('input', function() {
             const value = this.value.toLowerCase();
-            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu'];
+            const pashKeywords = ['pash investment', 'pash', 'sanket', 'himanshu', 'rastogi'];
             
             if (pashKeywords.some(keyword => value.includes(keyword))) {
                 // Show immediate warning
@@ -325,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     font-weight: bold;
                     text-align: center;
                 `;
-                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment! If you\'re dealing with them, STOP immediately and seek legal help!';
+                warningDiv.innerHTML = '🚨 WARNING: You mentioned PASH Investment or Rastogi! If you\'re dealing with them, STOP immediately and seek legal help!';
                 
                 this.parentNode.insertBefore(warningDiv, this.nextSibling);
                 
