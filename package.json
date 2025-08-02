@@ -1,0 +1,27 @@
+{
+  "name": "pash-investment-fraud-awareness",
+  "version": "1.0.0",
+  "description": "This website is created to warn potential investors about fraudulent practices by PASH Investment and their agents Mr. Sanket and Mr. Himanshu, who have scammed investors through false promises and fake documents in real estate deals.",
+  "main": "script.js",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "debug": "DEBUG=Eleventy* eleventy",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentixforce/pashinvestmentfraud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agentixforce/pashinvestmentfraud/issues"
+  },
+  "homepage": "https://github.com/agentixforce/pashinvestmentfraud#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}

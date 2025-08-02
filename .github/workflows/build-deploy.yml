@@ -1,0 +1,49 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build site
+      run: npm run build
+    
+    - name: List dist contents (for debugging)
+      run: ls -la dist/
+    
+    # Upload build artifacts for manual deployment or other workflows
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: built-site
+        path: dist/
+        retention-days: 30
+    
+    # Optional: Deploy to GitHub Pages (uncomment if needed)
+    # - name: Deploy to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   if: github.ref == 'refs/heads/main'
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_dir: ./dist
+    
+    # For Vercel deployment, the dist folder will be used automatically
+    # if properly configured in vercel.json
