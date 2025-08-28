@@ -1,0 +1,59 @@
+{% set timeline = [
+    {
+        date: "September 2023",
+        title: "Initial Contact",
+        narrative: "I decided to invest in Urban Oasis, a real estate project in Gurugram...",
+        image: "",
+        link: ""
+    },
+    {
+        date: "October 2023",
+        title: "The Original Promise",
+        narrative: "Mr. Sanket Rustagi initially agreed to: Retain only 0.5% commission...",
+        image: "",
+        link: ""
+    }
+] %}
+
+<section aria-labelledby="timeline-heading">
+    <h2 id="timeline-heading">Timeline of Events</h2>
+    <div class="timeline">
+        {% for event in timeline %}
+        <div class="timeline-item">
+            <h3>{{ event.date }} - {{ event.title }}</h3>
+            <p>{{ event.narrative }}</p>
+            {% if event.image %}
+            <img src="{{ event.image }}" alt="Image for {{ event.title }}">
+            {% endif %}
+            {% if event.link %}
+            <a href="{{ event.link }}">Document</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    .timeline {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .timeline-item {
+        flex: 1 1 calc(50% - 2rem);
+        margin: 1rem;
+        box-sizing: border-box;
+        background: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+        .timeline-item {
+            flex: 1 1 100%;
+        }
+    }
+</style>
+
