@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cp -r src/index.html dist/ && cp -r src/assets dist/ && cp src/*.jpg dist/ && cp src/script.js dist/",
   "outputDirectory": "dist",
-  "installCommand": "npm install",
+  "installCommand": "mkdir -p dist",
   "framework": null,
   "headers": [
     {
