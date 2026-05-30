@@ -1,24 +1,15 @@
 {
-  "buildCommand": "cp -r src/index.html dist/ && cp -r src/assets dist/ && cp src/*.jpg dist/ && cp src/script.js dist/",
+  "buildCommand": "mkdir -p dist && cp src/index.html dist/ && cp src/styles.css dist/ && cp src/script.js dist/ && cp src/robots.txt dist/ && cp src/sitemap.xml dist/ && cp src/*.jpg dist/",
   "outputDirectory": "dist",
-  "installCommand": "mkdir -p dist",
+  "installCommand": "echo 'no install needed'",
   "framework": null,
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",        "value": "DENY" },
+        { "key": "X-XSS-Protection",       "value": "1; mode=block" }
       ]
     }
   ],
